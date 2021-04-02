@@ -6,4 +6,4 @@ COPY . .
 
 RUN npm install
 
-CMD [ "npx", "sequelize-cli", "db:migrate" ]
+ENTRYPOINT [ "sh", "./cli/start.bash"]
