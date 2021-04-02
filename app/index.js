@@ -1,11 +1,9 @@
-
 import Discord from "discord.js";
+
+import InternalService from "./service/InternalService";
 
 const token = process.env.BOT_TOKEN;
 const botId = process.env.BOT_ID;
-
-console.log(token);
-console.log(botId);
 
 /**
  * 
@@ -34,14 +32,21 @@ const createMailApplicationForm = message => {
 }
 
 const client = new Discord.Client();
+const internalService = new InternalService();
+
+internalService.onAnnounce(() => {
+    client.channels.cache
+        .get('820795489564753941')
+        .send('this message are triggered by post');
+});/***/
 
 client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', msg => {
-    createMailApplicationForm(msg);
+client.on('message', message => {
+    //console.log(message.channel);
+    createMailApplicationForm(message);
 });
 
 client.login(token);
-
