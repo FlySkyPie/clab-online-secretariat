@@ -1,14 +1,44 @@
-import { MemberContact } from "../../models";
+import compose from 'koa-compose';
+import { customRandom, urlAlphabet, random } from "nanoid";
 
-const create = async (ctx, next) => {
-    var result = await MemberContact.create({
-        name: 'John',
-        email: 'test@gmail.com'
+import { ApplicationForm } from "../../models";
+
+const randUrl = customRandom(urlAlphabet, 22, random);
+
+const CreateRequestMiddleware = async (ctx, next) => {
+    const request = ctx.request.body;
+    switch (undefined) {
+        case request.type:
+            ctx.throw(400, "The type is missing.");
+            break;
+        case request.applicant:
+            ctx.throw(400, "The applicant is missing.");
+            break;
+        default:
+            await next();
+            break;
+    }
+};
+
+const createApplicationForm = async (ctx, next) => {
+    const { type, applicant } = ctx.request.body;
+    const result = await ApplicationForm.create({
+        type,
+        key: randUrl(),
+        active: false,
+        created_by: applicant,
     });
-    //for test
-    ctx.body = result;//'Hello World';
 
+    ctx.body = {
+        link: process.env.HOSTNAME + `/${result.key}`
+    };
 }
+
+const create = compose([
+    CreateRequestMiddleware,
+    createApplicationForm
+]);
+
 
 export default {
     create,
