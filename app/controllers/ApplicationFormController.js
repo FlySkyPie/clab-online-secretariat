@@ -1,6 +1,12 @@
+import { MemberContact } from "../../models";
+
 const create = async (ctx, next) => {
+    var result = await MemberContact.create({
+        name: 'John',
+        email: 'test@gmail.com'
+    });
     //for test
-    ctx.body = 'Hello World';
+    ctx.body = result;//'Hello World';
 
 }
 
