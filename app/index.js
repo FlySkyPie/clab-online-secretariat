@@ -1,6 +1,8 @@
 import bodyParser from 'koa-bodyparser';
 import Koa from "koa";
 import KoaRouter from "koa-router";
+import koaStatic from 'koa-static';
+import path from "path";
 
 import ApplicationFormController from './controllers/ApplicationFormController';
 import MemberContactController from './controllers/MemberContactController';
@@ -28,16 +30,17 @@ app.listen(3000, () => {
  * External Service
  */
 
- const externalApp = new Koa();
- const externalRouter = new KoaRouter();
- 
- externalRouter
-     .post('/membercontact/update', MemberContactController.update);
- 
- externalApp.use(bodyParser());
- externalApp.use(externalRouter.routes());
- 
- externalApp.listen(3050, () => {
-     console.log("\x1b[32mExternal Service are online.\x1b[0m")
- });
- 
+const externalApp = new Koa();
+const externalRouter = new KoaRouter();
+
+externalRouter
+    .post('/membercontact/update', MemberContactController.update);
+
+externalApp.use(koaStatic(path.join(__dirname, "../public")));
+externalApp.use(bodyParser());
+externalApp.use(externalRouter.routes());
+
+
+externalApp.listen(3050, () => {
+    console.log("\x1b[32mExternal Service are online.\x1b[0m")
+});
