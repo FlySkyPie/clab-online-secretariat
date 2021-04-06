@@ -5,7 +5,15 @@
       v-bind:subTitle="getToolName"
     >
     </app-navbar>
-    <!-- <email-wizard></email-wizard> -->
+    <div id="content" class="py-5">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <router-view />
+          </div>
+        </div>
+      </div>
+    </div>
     <app-footer v-bind:title="organizationName" v-bind:contact="contact">
     </app-footer>
   </div>
@@ -16,7 +24,7 @@ import AppNavbar from "./AppNavbar.vue";
 import AppFooter from "./AppFooter.vue";
 //import EmailWizard from './EmailWizard.vue';  //for test
 
-  export default {
+export default {
   name: "app",
   data: () => ({
     organizationName: "國立虎尾科技大學 追夢者自主學習社群",
