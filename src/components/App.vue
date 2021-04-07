@@ -28,7 +28,7 @@ export default {
   name: "app",
   data: () => ({
     organizationName: "國立虎尾科技大學 追夢者自主學習社群",
-    appName: "行政秘書工具",
+    appName: "線上秘書處",
     appVersion: "Beta 0.1.0",
     contact: "第二綜合工程館地下室一樓‧Email：lyana.atene@gmail.com",
   }),
