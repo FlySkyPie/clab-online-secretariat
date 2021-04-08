@@ -2,7 +2,7 @@
 
 module.exports = {
   "transpileDependencies": [
-    
+
   ],
   pages: {
     index: {
@@ -15,4 +15,20 @@ module.exports = {
   /*publicPath: process.env.NODE_ENV === 'production'
     ? 'https://flyskypie.github.io/'
     : '/',/**/
+  configureWebpack: {
+    module: {
+      rules: [
+        {
+          test: /api\.json$/i,
+          loader: 'file-loader',
+          type: 'javascript/auto',
+          options: {
+            name() {
+              return 'static/[name].[ext]';
+            },
+          },
+        },
+      ],
+    },
+  }
 }

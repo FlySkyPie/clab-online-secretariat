@@ -2,6 +2,11 @@ import Vue from 'vue'
 
 import router from './router'
 import App from './components/App.vue'
+import DataProvider from './plugin/DataProvider';
+
+//for api fetch
+
+Vue.use(DataProvider);
 
 //for bootstrap
 import BootstrapVue from 'bootstrap-vue'
