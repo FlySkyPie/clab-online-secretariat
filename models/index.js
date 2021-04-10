@@ -22,6 +22,13 @@ fs
   })
   .forEach(file => {
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+    
+    /**
+     * Fix table not exist in memory mode.
+     * @link https://stackoverflow.com/a/61367146/11833578
+     */
+    //model.sync({ force: true });
+
     db[model.name] = model;
   });
 
