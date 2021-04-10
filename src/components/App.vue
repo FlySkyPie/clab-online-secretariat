@@ -44,3 +44,10 @@ export default {
   },
 };
 </script>  
+
+
+<style>
+#content{
+  min-height: calc(100vh - 200px);
+}
+</style>
