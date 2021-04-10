@@ -34,10 +34,11 @@ const createMailApplicationForm = message => {
 const client = new Discord.Client();
 const internalService = new InternalService();
 
-internalService.onAnnounce(() => {
+internalService.onAnnounce((message) => {
     client.channels.cache
         .get('820795489564753941')
-        .send('this message are triggered by post');
+        .send(message);
+    //.send('this message are triggered by post');
 });/***/
 
 client.on('ready', () => {
