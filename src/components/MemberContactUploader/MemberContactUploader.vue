@@ -17,7 +17,7 @@
         </form>
       </div>
       <div v-if="stage == 1" class="px-2">
-        <table class="table table-striped table-responsive">
+        <table class="table table-striped table-responsive-md">
           <thead class="table-light">
             <tr>
               <th scope="col">#</th>
@@ -61,7 +61,7 @@
             {{ removed.length }} 個人被從名單中移除。
           </p>
         </b-alert>
-        <table class="table table-striped table-responsive">
+        <table class="table table-striped table-responsive-md">
           <thead class="table-light">
             <tr>
               <th scope="col">#</th>
