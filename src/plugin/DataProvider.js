@@ -1,7 +1,14 @@
 import axios from 'axios';
 import json from './api.json';
 
-let url = "http://localhost/";
+const config = {
+    crossDomain: true,
+    headers: {
+        'Content-Type': 'application/json',
+    }
+};
+
+let url = "/";
 
 axios.get(json).then(result => {
     url = result.data.url;
@@ -10,7 +17,10 @@ axios.get(json).then(result => {
 export default {
     install: (Vue) => {
         Vue.prototype.$fetch = function (path, payload) {
-            return axios.post(url + path, JSON.stringify(payload));
+            return axios.post(
+                url + path,
+                JSON.stringify(payload),
+                config);
         }
     },
 };
