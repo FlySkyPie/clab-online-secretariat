@@ -2,12 +2,12 @@
   <div class="border border-dark rounded-lg">
     <div class="lead bg-dark text-white m-0 p-2">會員通訊錄更新申請表</div>
     <div class="p-2">
-      <div v-if="!passed" class="m-5">
+      <div v-if="stage == 0" class="m-2">
         <form>
           <label>請選擇包含人員名單的 CSV 檔</label>
           <b-form-file
             v-model="file"
-            :state="passed"
+            :state="stage == 1"
             accept=".csv"
             @input="onSelectedFile"
             placeholder="選擇檔案或是拖曳檔案至此..."
@@ -16,8 +16,8 @@
           ></b-form-file>
         </form>
       </div>
-      <div v-if="passed" class="px-5">
-        <table class="table table-striped">
+      <div v-if="stage == 1" class="px-2">
+        <table class="table table-striped table-responsive">
           <thead class="table-light">
             <tr>
               <th scope="col">#</th>
@@ -50,6 +50,40 @@
           </div>
         </div>
       </div>
+      <div v-if="stage == 2" class="px-2 my-2">
+        <b-alert show variant="success">
+          <h4 class="alert-heading">會員通訊錄更新完成</h4>
+          <p>
+            您的「會員通訊錄更新申請」已被行政部秘書處受理，並完成名單更新。
+          </p>
+          <p>
+            總共有 {{ added.length }} 個人被新增至社群通訊錄，以及
+            {{ removed.length }} 個人被從名單中移除。
+          </p>
+        </b-alert>
+        <table class="table table-striped table-responsive">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">新增名單</th>
+              <th scope="col">移除名單</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in resultList" :key="item.col0">
+              <th scope="row">{{ item.col0 + 1 }}</th>
+              <td>{{ item.col1 }}</td>
+              <td>{{ item.col2 }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <hr />
+        <blockquote class="blockquote text-right mb-0">
+          <footer class="blockquote-footer">
+            <img src="https://i.imgur.com/9iV9C7D.png" />
+          </footer>
+        </blockquote>
+      </div>
     </div>
     <AlertModal ref="alert-modal" title="錯誤" />
   </div>
@@ -61,12 +95,29 @@ import ParsePromise from "./ParsePromise";
 
 export default {
   data: () => ({
-    passed: false,
+    stage: 0,
     list: [],
     file: null,
+    removed: [],
+    added: [],
   }),
   components: {
     AlertModal,
+  },
+  computed: {
+    resultList() {
+      const size = Math.max(this.added.length, this.removed.length);
+      const list = [];
+      for (let i = 0; i < size; i++) {
+        list.push({
+          col0: i,
+          col1: i < this.added.length ? this.added[i] : "",
+          col2: i < this.removed.length ? this.removed[i] : "",
+        });
+      }
+
+      return list;
+    },
   },
   methods: {
     onSelectedFile(file) {
@@ -75,27 +126,39 @@ export default {
         (file.type !== "text/csv" &&
           file.type !== "text/comma-separated-values")
       ) {
-        this.passed = false;
+        this.stage = 0;
         this.$refs["alert-modal"].show(
           "檔案格式錯誤，\n您上傳的檔案格式為: " + file.type
         );
         return;
       }
-
       ParsePromise(file)
         .then((list) => {
           this.list = list;
-          this.passed = true;
+          this.stage = 1;
         })
         .catch((error) => {
-          this.passed = false;
+          this.stage = 0;
           this.$refs["alert-modal"].show(error.toString());
         });
     },
-    onSubmit() {},
+    onSubmit() {
+      const contacts = this.list.map(({ name, email }) => ({ name, email }));
+      this.$fetch("membercontact/update", { contacts })
+        .then((result) => {
+          console.log(result);
+          this.stage = 2;
+          this.added = result.data.added;
+          this.removed = result.data.removed;
+          //TODO: Revoke token.
+        })
+        .catch((error) => {
+          this.$refs["alert-modal"].show("網路發生錯誤\n" + error.toString());
+        });
+    },
     back() {
       this.file = null;
-      this.passed = false;
+      this.stage = 0;
     },
   },
 };
