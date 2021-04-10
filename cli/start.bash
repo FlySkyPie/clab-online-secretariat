@@ -13,5 +13,5 @@ DATABASE_FILE=./database/db.sqlite
 if [ ! -f "${DATABASE_FILE}" ]; then
     npx sequelize-cli db:migrate 
 fi
-
+export NODE_ENV=production
 npx babel-node app/index.js
