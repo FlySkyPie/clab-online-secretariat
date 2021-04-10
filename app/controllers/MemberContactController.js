@@ -3,7 +3,6 @@ import { MemberContact } from "../../models";
 
 const UpdateRequestMiddleware = async (ctx, next) => {
     const request = ctx.request.body;
-    console.log(request);
     switch (undefined) {
         case request.contacts:
             ctx.throw(400, "The contacts is missing.");
