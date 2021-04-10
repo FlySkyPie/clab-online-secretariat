@@ -3,6 +3,7 @@ import Koa from "koa";
 import KoaRouter from "koa-router";
 import koaStatic from 'koa-static';
 import path from "path";
+import cors from '@koa/cors';
 
 import ApplicationFormController from './controllers/ApplicationFormController';
 import MemberContactController from './controllers/MemberContactController';
@@ -20,6 +21,7 @@ router
 app.use(bodyParser());
 app.use(router.routes());
 
+
 app.listen(3000, () => {
     console.log("\x1b[32mInternal Service are online.\x1b[0m")
 });
@@ -36,6 +38,7 @@ const externalRouter = new KoaRouter();
 externalRouter
     .post('/membercontact/update', MemberContactController.update);
 
+externalApp.use(cors());
 externalApp.use(koaStatic(path.join(__dirname, "../public")));
 externalApp.use(bodyParser());
 externalApp.use(externalRouter.routes());

@@ -4,6 +4,7 @@ import { customRandom, urlAlphabet, random } from "nanoid";
 import { ApplicationForm } from "../../models";
 
 const randUrl = customRandom(urlAlphabet, 22, random);
+const hostname = process.env.HOSTNAME;
 
 const CreateRequestMiddleware = async (ctx, next) => {
     const request = ctx.request.body;
@@ -30,7 +31,7 @@ const createApplicationForm = async (ctx, next) => {
     });
 
     ctx.body = {
-        link: process.env.HOSTNAME + `/${result.key}`
+        link: hostname + `/${result.key}`
     };
 }
 
