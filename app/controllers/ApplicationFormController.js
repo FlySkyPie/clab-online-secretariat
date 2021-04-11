@@ -67,6 +67,7 @@ const activeApplicationForm = async (ctx, next) => {
     const token = jwt.sign({
         id: result.id,
         type: result.type,
+        user: result.created_by,
     }, 'secret', { algorithm: 'HS256', expiresIn: '1h' });
 
     ctx.cookies.set('jwt', token, { httpOnly: false, maxAge: 60 * 60 * 1000 });
