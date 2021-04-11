@@ -7,6 +7,7 @@ import cors from '@koa/cors';
 
 import ApplicationFormController from './controllers/ApplicationFormController';
 import MemberContactController from './controllers/MemberContactController';
+import authenticate from './middleware/authenticate';
 
 /**
  * Internal Service
@@ -18,8 +19,8 @@ const router = new KoaRouter();
 router
     .post('/application-form/create', ApplicationFormController.create);
 
-app.use(bodyParser());
-app.use(router.routes());
+app.use(bodyParser())
+    .use(router.routes());
 
 
 app.listen(3030, () => {
@@ -41,10 +42,12 @@ externalRouter
 externalRouter
     .get('/application-form/active/:id', ApplicationFormController.active);
 
-externalApp.use(cors());
-externalApp.use(koaStatic(path.join(__dirname, "../public")));
-externalApp.use(bodyParser());
-externalApp.use(externalRouter.routes());
+externalApp.use(cors())
+    .use(bodyParser())
+    .use(authenticate)
+    .use(externalRouter.routes())
+    .use(koaStatic(path.join(__dirname, "../public")));
+
 
 
 externalApp.listen(3050, () => {

@@ -69,13 +69,8 @@ const activeApplicationForm = async (ctx, next) => {
         type: result.type,
     }, 'secret', { algorithm: 'HS256', expiresIn: '1h' });
 
-    ctx.cookies.set('jwt', token, { maxAge: 60 * 60 * 1000 });
-
-    console.log(result)
-
-    //give token
-
-    ctx.body = "OWO";
+    ctx.cookies.set('jwt', token, { httpOnly: false, maxAge: 60 * 60 * 1000 });
+    ctx.redirect('/');
 }
 
 const active = compose([
