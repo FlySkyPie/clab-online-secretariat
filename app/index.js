@@ -38,6 +38,9 @@ const externalRouter = new KoaRouter();
 externalRouter
     .post('/membercontact/update', MemberContactController.update);
 
+externalRouter
+    .get('/application-form/active/:id', ApplicationFormController.active);
+
 externalApp.use(cors());
 externalApp.use(koaStatic(path.join(__dirname, "../public")));
 externalApp.use(bodyParser());

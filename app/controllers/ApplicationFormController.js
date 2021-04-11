@@ -1,7 +1,12 @@
 import compose from 'koa-compose';
 import { customRandom, urlAlphabet, random } from "nanoid";
+import jwt from 'jsonwebtoken';
 
 import { ApplicationForm } from "../../models";
+
+/**
+ * For Internal Service.
+ */
 
 const randUrl = customRandom(urlAlphabet, 22, random);
 const hostname = process.env.HOSTNAME;
@@ -40,7 +45,45 @@ const create = compose([
     createApplicationForm
 ]);
 
+/**
+ * For External Service
+ */
+
+const activeApplicationForm = async (ctx, next) => {
+    const { id } = ctx.params;
+    const result = await ApplicationForm.findOne({
+        where: { key: id, active: false, consumed_at: null }, // where 條件
+    });
+
+    if (result === null) {
+        ctx.throw(404);
+    }
+
+    /*await result.update({
+        active: true,
+        consumed_at: Date.now(),
+    });/** */
+
+    const token = jwt.sign({
+        id: result.id,
+        type: result.type,
+    }, 'secret', { algorithm: 'HS256', expiresIn: '1h' });
+
+    ctx.cookies.set('jwt', token, { maxAge: 60 * 60 * 1000 });
+
+    console.log(result)
+
+    //give token
+
+    ctx.body = "OWO";
+}
+
+const active = compose([
+    activeApplicationForm
+]);
+
 
 export default {
     create,
+    active
 };
