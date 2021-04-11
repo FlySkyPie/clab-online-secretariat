@@ -144,7 +144,7 @@ export default {
     },
     onSubmit() {
       const contacts = this.list.map(({ name, email }) => ({ name, email }));
-      this.$fetch("membercontact/update", { contacts })
+      this.$fetch("/membercontact/update", { contacts })
         .then((result) => {
           console.log(result);
           this.stage = 2;

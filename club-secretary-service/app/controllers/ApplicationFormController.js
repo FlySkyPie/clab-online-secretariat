@@ -3,6 +3,7 @@ import { customRandom, urlAlphabet, random } from "nanoid";
 import jwt from 'jsonwebtoken';
 
 import { ApplicationForm } from "../../models";
+import { secret } from '../config';
 
 /**
  * For Internal Service.
@@ -68,7 +69,7 @@ const activeApplicationForm = async (ctx, next) => {
         id: result.id,
         type: result.type,
         user: result.created_by,
-    }, 'secret', { algorithm: 'HS256', expiresIn: '1h' });
+    }, secret, { algorithm: 'HS256', expiresIn: '1h' });
 
     ctx.cookies.set('jwt', token, { httpOnly: false, maxAge: 60 * 60 * 1000 });
     ctx.redirect('/');

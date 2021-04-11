@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import { discordURI } from '../config';
+
 const config = {
     crossDomain: true,
     headers: {
@@ -7,11 +9,9 @@ const config = {
     }
 };
 
-const url = "http://localhost:3020/announcement";
-
 export const announce = (message) => {
     return axios.post(
-        url,
+        discordURI + "/announcement",
         JSON.stringify({ message }),
         config);
 }

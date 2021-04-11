@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken';
 
+import { secret } from '../config';
+
 const verify = (token) =>
     new Promise((resolve, reject) => {
-        jwt.verify(token, 'secret', function (err, decoded) {
+        jwt.verify(token, secret, function (err, decoded) {
             if (err) {
                 reject(err);
                 return;
