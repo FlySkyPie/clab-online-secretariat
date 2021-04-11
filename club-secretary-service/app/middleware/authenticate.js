@@ -1,0 +1,29 @@
+import jwt from 'jsonwebtoken';
+
+const verify = (token) =>
+    new Promise((resolve, reject) => {
+        jwt.verify(token, 'secret', function (err, decoded) {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(decoded);
+        });
+    });
+
+const authenticate = async (ctx, next) => {
+    if (ctx.originalUrl.match(/^\/application-form\/active/i) !== null) {
+        await next();
+    } else {
+        const token = ctx.cookies.get('jwt');
+        try {
+            const jwt = await verify(token);
+            ctx.state.jwt = jwt;
+        } catch (error) {
+            ctx.throw(401);
+        }
+        await next();
+    }
+}/** */
+
+export default authenticate;

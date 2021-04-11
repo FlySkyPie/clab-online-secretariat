@@ -1,0 +1,32 @@
+{
+  "name": "club-secretary-service",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "export NODE_ENV=development && npx babel-node app/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "FlySkyPie (Wei Ji)",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.14",
+    "@babel/node": "^7.13.13",
+    "@babel/preset-env": "^7.13.12",
+    "@koa/cors": "^3.1.0",
+    "axios": "^0.21.1",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.13.1",
+    "koa-bodyparser": "^4.3.0",
+    "koa-compose": "^4.1.0",
+    "koa-router": "^10.0.0",
+    "koa-static": "^5.0.0",
+    "nanoid": "^3.1.22",
+    "sequelize": "^6.6.2",
+    "sqlite3": "^5.0.2"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.2.0"
+  }
+}
