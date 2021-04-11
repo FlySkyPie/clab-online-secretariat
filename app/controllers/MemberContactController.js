@@ -1,5 +1,7 @@
 import compose from 'koa-compose';
+
 import { MemberContact } from "../../models";
+import { announce } from "../services/DiscordService";
 
 const UpdateRequestMiddleware = async (ctx, next) => {
     const request = ctx.request.body;
@@ -34,6 +36,13 @@ const updateMemberContact = async (ctx, next) => {
         added: plannedAddMemberContacts.map(item => item.name),
         removed: plannedRemoveMemberNames,
     };
+
+    // TODO: Get user information from 
+
+    const message = "某人更新了社群通訊錄\n" +
+        `總共有 ${response.added.length} 個人被新增至社群通訊錄，` +
+        `以及 ${response.removed.length} 個人被從名單中移除。`;
+    await announce(message);
 
     ctx.body = JSON.stringify(response);
 };
