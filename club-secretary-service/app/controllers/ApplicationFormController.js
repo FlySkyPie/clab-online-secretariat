@@ -3,14 +3,13 @@ import { customRandom, urlAlphabet, random } from "nanoid";
 import jwt from 'jsonwebtoken';
 
 import { ApplicationForm } from "../../models";
-import { secret } from '../config';
+import { secret, hostname } from '../config';
 
 /**
  * For Internal Service.
  */
 
 const randUrl = customRandom(urlAlphabet, 22, random);
-const hostname = process.env.HOSTNAME;
 
 const CreateRequestMiddleware = async (ctx, next) => {
     const request = ctx.request.body;
@@ -35,9 +34,10 @@ const createApplicationForm = async (ctx, next) => {
         active: false,
         created_by: applicant,
     });
+    const link = hostname + `/application-form/active/${result.key}`;
 
     ctx.body = {
-        link: hostname + `/${result.key}`
+        link
     };
 }
 
