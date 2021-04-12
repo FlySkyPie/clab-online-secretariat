@@ -2,7 +2,7 @@ import Koa from "koa";
 import KoaRouter from "koa-router";
 import bodyParser from 'koa-bodyparser';
 
-class InternalService {
+class AnnounceService {
     constructor() {
         const app = new Koa();
         const router = new KoaRouter();
@@ -23,7 +23,7 @@ class InternalService {
     /**
      * @public
      * @param {(message:string)=>void} callback 
-     * @returns {InternalService}
+     * @returns {AnnounceService}
      */
     onAnnounce(callback) {
         this.toggleAnnounce = callback;
@@ -42,4 +42,4 @@ class InternalService {
     };
 }
 
-export default InternalService;
+export default AnnounceService;

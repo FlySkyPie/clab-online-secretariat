@@ -1,9 +1,9 @@
 import Discord from "discord.js";
 
-import InternalService from "./service/InternalService";
+import AnnounceService from "./service/AnnounceService";
+import SecretaryService from './service/SecretaryService';
+import { token, botId } from './config';
 
-const token = process.env.BOT_TOKEN;
-const botId = process.env.BOT_ID;
 
 /**
  * 
@@ -32,7 +32,7 @@ const createMailApplicationForm = message => {
 }
 
 const client = new Discord.Client();
-const internalService = new InternalService();
+const internalService = new AnnounceService();
 
 internalService.onAnnounce((message) => {
     client.channels.cache
@@ -45,7 +45,24 @@ client.on('ready', () => {
     console.log(`Logged in as ${client.user.tag}!`);
 });
 
-client.on('message', message => {
+client.on('message', async message => {
+    /*client.users.fetch(message.author.id, false).then((user) => {
+        user.send('heloo');
+    });/**/
+
+    message.author.send("Your message here.").catch(()=>{});
+
+    //console.log(client.guilds.cache.get(guildId).member(message.author));
+    //console.log(message.channel.recipient);
+    /*lient.guilds.cache.get(guildId).member
+    const guild = client.guilds.cache.get(guildId)
+    console.log(guild.members.cache);
+    console.log(message);/**/
+    /*const findguildroles = guild.roles.cache.forEach(item => {
+        console.log(item.name);
+        console.log(item.members);
+    });/**/
+
     //console.log(message.channel);
     createMailApplicationForm(message);
 });
