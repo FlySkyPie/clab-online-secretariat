@@ -1,7 +1,7 @@
 import Discord from "discord.js";
 
 import AnnounceService from "./service/AnnounceService";
-import { createMailApplicationForm } from './service/ChannelService';
+import { createContactsUpdateApplicationForm } from './service/ChannelService';
 import { token, secretariatChannelId, guildId } from './config';
 
 const client = new Discord.Client();
@@ -18,7 +18,7 @@ client.on('ready', () => {
 });
 
 client.on('message', async message => {
-    createMailApplicationForm(message);
+    createContactsUpdateApplicationForm(message);
 });
 
 client.login(token);
