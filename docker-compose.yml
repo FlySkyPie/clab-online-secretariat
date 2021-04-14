@@ -1,0 +1,43 @@
+version: "2.2"
+services:
+  discord-service:
+    build: ./discord-bot-service/.
+    restart: always
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - BOT_ID=${BOT_ID}
+      - SECRETARIAT_CHANNEL_ID=${SECRETARIAT_CHANNEL_ID}
+      - GUILD_ID=${GUILD_ID}
+      - SECRETART_SERVICE_URI=http://secretary-service:3030
+    networks:
+      - internal-network
+
+  secretary-service:
+    build: ./club-secretary-service/.
+    restart: always
+    environment:
+      - SECRET=${SECRET}
+      - DISCORD_SERVICE_URI=http://discord-service:3020
+      - HOSTNAME=${HOSTNAME}
+    ports:
+      - "8080:3050"
+    volumes:
+      - web-static:/app/public
+      - database:/app/database
+    networks:
+      - internal-network
+
+  frontend-builder:
+    build: ./club-secretary-frontend/.
+    environment:
+      - API_SERVICE_URI=${API_SERVICE_URI}
+    volumes:
+      - web-static:/build
+
+volumes:
+  web-static:
+  database:
+
+networks:
+  internal-network:
+    driver: bridge
