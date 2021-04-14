@@ -4,7 +4,7 @@
 #author          :FlySkyPie (Wei Ji)
 #date            :2021-04-15
 #version         :0.1.1
-#usage           :bash ./cli/deploy.bash
+#usage           :only call this script in docker container (bash ./cli/deploy.bash)
 #notes           :--
 #bash_version    :4.4.20(1)-release
 #===============================================================================
