@@ -20,5 +20,16 @@ yarn build
 yarn lint
 ```
 
+### Build in Docker
+
+```shell 
+mkdir build
+docker run \
+--rm \
+--env API_SERVICE_URI=http://localhost:8080 \
+--mount type=bind,source="$(pwd)"/build,target=/build \
+-it $(docker build -q .)
+```
+
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
