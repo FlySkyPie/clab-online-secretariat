@@ -146,11 +146,9 @@ export default {
       const contacts = this.list.map(({ name, email }) => ({ name, email }));
       this.$fetch("/membercontact/update", { contacts })
         .then((result) => {
-          console.log(result);
           this.stage = 2;
           this.added = result.data.added;
           this.removed = result.data.removed;
-          //TODO: Revoke token.
         })
         .catch((error) => {
           this.$refs["alert-modal"].show("網路發生錯誤\n" + error.toString());
