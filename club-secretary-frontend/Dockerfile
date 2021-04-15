@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install -g npm@7.8.0
+#RUN npm install -g npm
 RUN npm install
 
 ENTRYPOINT [ "sh", "./cli/deploy.bash"]
