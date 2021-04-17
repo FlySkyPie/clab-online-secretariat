@@ -80,7 +80,7 @@
         <hr />
         <blockquote class="blockquote text-right mb-0">
           <footer class="blockquote-footer">
-            <img src="https://i.imgur.com/9iV9C7D.png" />
+            <img data-src="../../img/lyana-signature.png" />
           </footer>
         </blockquote>
       </div>
