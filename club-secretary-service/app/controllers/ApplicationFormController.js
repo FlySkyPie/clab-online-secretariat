@@ -50,7 +50,7 @@ const create = compose([
  * For External Service
  */
 
-const activeApplicationForm = async (ctx, next) => {
+const ApplicationFormExistMiddleware = async (ctx, next) => {
     const { id } = ctx.params;
     const result = await ApplicationForm.findOne({
         where: { key: id, active: false, consumed_at: null }, // where 條件
@@ -58,24 +58,56 @@ const activeApplicationForm = async (ctx, next) => {
 
     if (result === null) {
         ctx.throw(404);
+    } else {
+        ctx.state.applicationForm = result;
+        await next();
     }
+};
 
-    /*await result.update({
+const ApplicationFormValidMiddleware = async (ctx, next) => {
+    const { applicationForm } = ctx.state;
+    const createdTimestamp = new Date(applicationForm.created_at).getTime();
+    const expiredTimestamp = createdTimestamp + 60 * 60 * 1000;
+    const currentTimestamp = Date.now();
+    if (currentTimestamp <= expiredTimestamp) {
+        ctx.state.timestamps = {
+            createdTimestamp,
+            expiredTimestamp,
+            currentTimestamp,
+            expiresIn: expiredTimestamp - currentTimestamp,
+        };
+        await next();
+    } else {
+        await applicationForm.update({
+            active: false,
+            consumed_at: Date.now(),
+        });
+        ctx.throw(401, 'The link are expired.');
+    }
+};
+
+const activeApplicationForm = async (ctx, next) => {
+    const { applicationForm, timestamps } = ctx.state;
+
+    await applicationForm.update({
         active: true,
-        consumed_at: Date.now(),
+        consumed_at: timestamps.currentTimestamp,
     });/** */
 
     const token = jwt.sign({
-        id: result.id,
-        type: result.type,
-        user: result.created_by,
-    }, secret, { algorithm: 'HS256', expiresIn: '1h' });
+        id: applicationForm.id,
+        type: applicationForm.type,
+        user: applicationForm.created_by,
+        iat: Math.floor(timestamps.createdTimestamp / 1000),
+    }, secret, { algorithm: 'HS256', expiresIn: "1hr" });
 
-    ctx.cookies.set('jwt', token, { httpOnly: false, maxAge: 60 * 60 * 1000 });
+    ctx.cookies.set('jwt', token, { httpOnly: false, maxAge: timestamps.expiresIn });
     ctx.redirect('/');
 }
 
 const active = compose([
+    ApplicationFormExistMiddleware,
+    ApplicationFormValidMiddleware,
     activeApplicationForm
 ]);
 
