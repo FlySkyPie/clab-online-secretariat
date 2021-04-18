@@ -7,6 +7,7 @@ import cors from '@koa/cors';
 
 import ApplicationFormController from './controllers/ApplicationFormController';
 import MemberContactController from './controllers/MemberContactController';
+import ClubEmailController from './controllers/ClubEmailController';
 import authenticate from './middleware/authenticate';
 
 /**
@@ -40,11 +41,14 @@ externalRouter
     .post('/membercontact/update', MemberContactController.update);
 
 externalRouter
+    .post('/organization-email/send', ClubEmailController.send);
+
+externalRouter
     .get('/application-form/active/:id', ApplicationFormController.active);
 
 externalApp.use(cors())
     .use(bodyParser())
-    .use(authenticate)
+    //.use(authenticate)
     .use(externalRouter.routes())
     .use(koaStatic(path.join(__dirname, "../public")));
 
