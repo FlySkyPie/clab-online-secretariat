@@ -40,15 +40,19 @@ const router = new VueRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+  if (process.env.NODE_ENV === 'development') {
+    next();
+    return;
+  }
   const token = await getCookiePromise();
   const jwt = await decodePromese(token);
   if (to.name === jwt.type) {
     next();
-  }else if (jwt.type === 'member-contacts') {
+  } else if (jwt.type === 'member-contacts') {
     next({ name: 'member-contacts' });
-  }else{
+  } else {
     next({ name: 'homepage' });
-  }/***/
+  }
 });
 
 export default router
