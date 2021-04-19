@@ -38,7 +38,7 @@ const externalApp = new Koa();
 const externalRouter = new KoaRouter();
 
 externalRouter
-    .post('/membercontact/update', MemberContactController.update);
+    .post('/member-contacts/update', MemberContactController.update);
 
 externalRouter
     .post('/organization-email/send', ClubEmailController.send);
