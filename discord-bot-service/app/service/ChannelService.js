@@ -32,6 +32,29 @@ export const createContactsUpdateApplicationForm = async message => {
     console.log(nickname);/***/
 
     const result = await SecretaryService.create('member-contacts', message.author.username);
-    const responseMessage = "您的會員通訊錄更新申請表在此：\n" + result.data.link ;
+    const responseMessage = "您的會員通訊錄更新申請表在此：\n" + result.data.link;
+    message.author.send(responseMessage).catch(() => { });
+}
+
+export const createOrganizationEmailApplicationForm = async message => {
+    if (message.channel.type !== "text") {
+        return;
+    }
+
+    //change this later
+    if (!message.member.roles.cache.some(role => role.name === '顧問')) {
+        return;
+    }
+
+    if (message.content.match(/^!Lyana /g) === null) {
+        return;
+    }
+
+    if (message.content.match(/.*email.*/g) === null) {
+        return;
+    }
+
+    const result = await SecretaryService.create('organization-email', message.author.username);
+    const responseMessage = "您的社群信申請表在此：\n" + result.data.link;
     message.author.send(responseMessage).catch(() => { });
 }
