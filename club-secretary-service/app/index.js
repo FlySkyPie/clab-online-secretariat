@@ -7,7 +7,7 @@ import cors from '@koa/cors';
 
 import ApplicationFormController from './controllers/ApplicationFormController';
 import MemberContactController from './controllers/MemberContactController';
-import ClubEmailController from './controllers/ClubEmailController';
+import OrganizationEmailController from './controllers/OrganizationEmailController';
 import authenticate from './middleware/authenticate';
 
 /**
@@ -41,7 +41,8 @@ externalRouter
     .post('/member-contacts/update', MemberContactController.update);
 
 externalRouter
-    .post('/organization-email/send', ClubEmailController.send);
+    .post('/organization-email/send', OrganizationEmailController.preview)
+    .post('/organization-email/send', OrganizationEmailController.send);
 
 externalRouter
     .get('/application-form/active/:id', ApplicationFormController.active);

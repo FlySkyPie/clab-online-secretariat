@@ -15,14 +15,14 @@ const createMailBody = (message) => {
 /**
  * 
  * @param {{
- * recipient: string,
- * message: string,
+ * recipients: string[],
+ * content: string,
  * title: string,
  * }} options 
  * @returns 
  */
-export const sendMail = async (options) => {
-    const { recipient, message, title } = options;
+export const sendBatchMail = async (options) => {
+    const { recipients, content, title } = options;
     const transporter = nodemailer.createTransport({
         host: 'smtp.gmail.com',
         port: 587,
@@ -35,22 +35,22 @@ export const sendMail = async (options) => {
 
     await transporter.sendMail({
         from: sender,
-        to: recipient,
-        subject: title, 
-        html: createMailBody(message),
+        to: recipients.join(', '),
+        subject: title,
+        html: createMailBody(content),
     });
 }
 
 /**
  * 
  * @param {{
- * message: string,
+ * content: string,
  * title: string,
  * }} options 
- * @returns 
+ * @returns {string}
  */
 export const sendTestMail = async (options) => {
-    const { message, title } = options;
+    const { content, title } = options;
     const testAccount = await nodemailer.createTestAccount();
     const transporter = nodemailer.createTransport({
         host: "smtp.ethereal.email",
@@ -65,7 +65,7 @@ export const sendTestMail = async (options) => {
         from: sender,
         to: "bar@example.com, baz@example.com",
         subject: title,
-        html: createMailBody(message)
+        html: createMailBody(content)
     });
 
     return nodemailer.getTestMessageUrl(info);
