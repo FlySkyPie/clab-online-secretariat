@@ -32,6 +32,10 @@ const routes = [
     path: '/member-contacts',
     name: 'member-contacts',
     component: () => import('../components/MemberContactUploader/MemberContactUploader')
+  },{
+    path: '/organization-email',
+    name: 'organization-email',
+    component: () => import('../components/MailEditor/MailEditor')
   },
 ]
 
@@ -50,6 +54,8 @@ router.beforeEach(async (to, from, next) => {
     next();
   } else if (jwt.type === 'member-contacts') {
     next({ name: 'member-contacts' });
+  } else if (jwt.type === 'organization-email') {
+    next({ name: 'organization-email' });
   } else {
     next({ name: 'homepage' });
   }

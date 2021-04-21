@@ -15,13 +15,10 @@ const AuthenticateMiddleware = async (ctx, next) => {
 const UpdateRequestMiddleware = async (ctx, next) => {
     const request = ctx.request.body;
     switch (undefined) {
-        case request.email:
-            ctx.throw(400, "The email is missing.");
-            break;
-        case request.email.title:
+        case request.title:
             ctx.throw(400, "The title is missing.");
             break;
-        case request.email.content:
+        case request.content:
             ctx.throw(400, "The content is missing.");
             break;
         default:
@@ -32,8 +29,8 @@ const UpdateRequestMiddleware = async (ctx, next) => {
 
 
 const sendEmail = async (ctx, next) => {
-    const email = ctx.request.body.email;
-    const testPreviewLink = await sendTestMail(email);
+    const { title, content } = ctx.request.body;
+    const testPreviewLink = await sendTestMail({ title, content });
     const contacts = await MemberContact.findAll();
 
     ctx.body = {
@@ -56,8 +53,8 @@ const send = compose([
 ]);
 
 const sendPreviewEmail = async (ctx, next) => {
-    const email = ctx.request.body.email;
-    const testPreviewLink = await sendTestMail(email);
+    const { title, content } = ctx.request.body;
+    const testPreviewLink = await sendTestMail({ title, content });
 
     ctx.body = {
         link: testPreviewLink,
@@ -65,7 +62,7 @@ const sendPreviewEmail = async (ctx, next) => {
 }
 
 const preview = compose([
-    AuthenticateMiddleware,
+    //AuthenticateMiddleware,
     UpdateRequestMiddleware,
     sendPreviewEmail
 ]);
