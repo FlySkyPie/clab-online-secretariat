@@ -36,6 +36,10 @@ app.listen(3030, () => {
 
 const externalApp = new Koa();
 const externalRouter = new KoaRouter();
+const koaOptions = {
+    credentials: true,
+    origin: '*',    //['http://127.0.0.1:8080'],
+};
 
 externalRouter
     .post('/member-contacts/update', MemberContactController.update);
@@ -47,7 +51,7 @@ externalRouter
 externalRouter
     .get('/application-form/active/:id', ApplicationFormController.active);
 
-externalApp.use(cors())
+externalApp.use(cors(koaOptions))
     .use(bodyParser())
     //.use(authenticate)
     .use(externalRouter.routes())

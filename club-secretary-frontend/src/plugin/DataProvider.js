@@ -5,8 +5,9 @@ const config = {
     crossDomain: true,
     headers: {
         'Content-Type': 'application/json',
+        //"Access-Control-Allow-Origin": "*",
     },
-    withCredentials: true,
+    //withCredentials: true,
 };
 
 let url = "/";
