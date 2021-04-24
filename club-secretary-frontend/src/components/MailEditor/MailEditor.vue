@@ -3,51 +3,63 @@
     <div class="lead bg-dark text-white m-0 p-2">社群電子郵件申請表</div>
     <div class="p-2">
       <div v-if="stage == 0" class="m-2">
-        <div class="m-2">
-          <b-form-input v-model="title" type="text" placeholder="郵件標題" />
-        </div>
-        <div class="m-2">
-          <vue-simplemde v-model="content" ref="markdownEditor" />
-        </div>
-        <div class="mx-2 p-2 text-center">
-          <hr />
-          <button type="button" class="btn btn-dark" v-on:click="onSubmit">
-            下一步
-            <i class="fa fa-share-square-o"></i>
-          </button>
-        </div>
+        <b-overlay :show="loading" rounded="sm">
+          <div class="m-2">
+            <b-form-input v-model="title" type="text" placeholder="郵件標題" />
+          </div>
+          <div class="m-2">
+            <vue-simplemde v-model="content" ref="markdownEditor" />
+          </div>
+          <div class="mx-2 p-2 text-center">
+            <hr />
+            <button type="button" class="btn btn-dark" v-on:click="onSubmit">
+              送出申請
+            </button>
+          </div>
+        </b-overlay>
       </div>
     </div>
     <AlertModal ref="alert-modal" title="錯誤" />
+    <ConfirmModal ref="confirm-modal" @confirm="sendEmail" />
   </div>
 </template>
 
 <script>
 import AlertModal from "./AlertModal";
+import ConfirmModal from "./ConfirmModal";
 
 export default {
   data: () => ({
     stage: 0,
     title: "",
     content: "",
+    loading: false,
   }),
   components: {
     AlertModal,
+    ConfirmModal,
   },
   computed: {},
   methods: {
     onSubmit() {
+      this.$refs["confirm-modal"].show();
+    },
+    sendEmail() {
+      this.loading = true;
       const payload = {
         title: this.title,
         content: this.content,
       };
       this.$fetch("/organization-email/preview", payload)
         .then((result) => {
+          console.log(result);
           this.stage = 2;
-          this.added = result.data.added;
-          this.removed = result.data.removed;
+          this.loading = false;
+          //this.added = result.data.added;
+          //this.removed = result.data.removed;
         })
         .catch((error) => {
+          this.loading = false;
           this.$refs["alert-modal"].show("網路發生錯誤\n" + error.toString());
         });
     },
