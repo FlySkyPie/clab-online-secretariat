@@ -18,6 +18,7 @@
           </div>
         </b-overlay>
       </div>
+      <ResultTab  v-if="stage == 2" />
     </div>
     <AlertModal ref="alert-modal" title="錯誤" />
     <ConfirmModal ref="confirm-modal" @confirm="sendEmail" />
@@ -27,6 +28,7 @@
 <script>
 import AlertModal from "./AlertModal";
 import ConfirmModal from "./ConfirmModal";
+import ResultTab from './ResultTab';
 
 export default {
   data: () => ({
@@ -34,10 +36,12 @@ export default {
     title: "",
     content: "",
     loading: false,
+    result:{},
   }),
   components: {
     AlertModal,
     ConfirmModal,
+    ResultTab,
   },
   computed: {},
   methods: {
