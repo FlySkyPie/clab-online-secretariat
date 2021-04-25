@@ -31,11 +31,11 @@ const routes = [
   }, {
     path: '/member-contacts',
     name: 'member-contacts',
-    component: () => import('../components/MemberContactUploader/MemberContactUploader')
+    component: () => import('../components/MemberContacts/MemberContacts')
   },{
     path: '/organization-email',
     name: 'organization-email',
-    component: () => import('../components/MailEditor/MailEditor')
+    component: () => import('../components/OrganizationEmail/OrganizationEmail')
   },
 ]
 
