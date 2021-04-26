@@ -54,7 +54,7 @@ export const sendBatchMail = async (options) => {
  * title: string,
  * recipients: Recipient[]
  * }} options 
- * @returns {string}
+ * @returns {{success:string[],failure:string[]}}
  */
 export const sendTestMail = async (options) => {
     const { content, title, recipients } = options;

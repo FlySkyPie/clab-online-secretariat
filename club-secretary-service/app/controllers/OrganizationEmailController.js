@@ -39,16 +39,17 @@ const sendEmail = async (ctx, next) => {
     }));
 
     const result = await sendTestMail({ title, content, recipients });
-    console.log(result);
-    ctx.body = JSON.stringify(result);
-
     const username = ctx.state.jwt.user;
-    const message = `${username} 寄出了一封社群信\n` +
-        `總共有 封成功寄出；並且 封寄件失敗，請檢查是否為有效信箱。`;
+
+    const successMessage = `${username} 寄出了一封社群信\n` +
+        `總共有 ${result.success.length} 封成功寄出`;
+    const failureMessage = successMessage +
+        `；並且 ${result.failure.length} 封寄件失敗，請檢查是否為有效信箱。`;
+    const message = (failure.length > 0) ? failureMessage : successMessage + "。";
     await announce(message);
 
     ctx.cookies.set('jwt', "deleted", { maxAge: -1 });
-    //ctx.body = JSON.stringify(response);
+    ctx.body = JSON.stringify(result);
 }
 
 const send = compose([
