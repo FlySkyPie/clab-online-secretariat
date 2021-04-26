@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "bash ./cli/serve.bash",
+    "serve": "bash ./cli/serve.bash",
+    "start": "bash ./cli/start.bash",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "FlySkyPie (Wei Ji)",
