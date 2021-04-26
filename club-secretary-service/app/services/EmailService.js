@@ -42,15 +42,22 @@ export const sendBatchMail = async (options) => {
 }
 
 /**
+ * @typedef {Object} Recipient
+ * @property name {string}
+ * @property address {string}
+ */
+
+/**
  * 
  * @param {{
  * content: string,
  * title: string,
+ * recipients: Recipient[]
  * }} options 
  * @returns {string}
  */
 export const sendTestMail = async (options) => {
-    const { content, title } = options;
+    const { content, title, recipients } = options;
     const testAccount = await nodemailer.createTestAccount();
     const transporter = nodemailer.createTransport({
         host: "smtp.ethereal.email",
@@ -61,12 +68,19 @@ export const sendTestMail = async (options) => {
             pass: testAccount.pass,
         },
     });
+
+    console.log(recipients);
     const info = await transporter.sendMail({
         from: sender,
-        to: "bar@example.com, baz@example.com",
+        to: recipients,//"bar@example.com, baz@example.com",
         subject: title,
         html: createMailBody(content)
     });
 
-    return nodemailer.getTestMessageUrl(info);
+    console.log({ link: nodemailer.getTestMessageUrl(info) });
+
+    return {
+        success: info.accepted,
+        failure: info.rejected,
+    };
 }

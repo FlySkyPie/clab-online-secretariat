@@ -30,12 +30,15 @@ const UpdateRequestMiddleware = async (ctx, next) => {
 
 const sendEmail = async (ctx, next) => {
     const { title, content } = ctx.request.body;
-    const testPreviewLink = await sendTestMail({ title, content });
-    const contacts = await MemberContact.findAll();
 
-    ctx.body = {
-        link: testPreviewLink,
-    };
+    const memberContacts = await MemberContact.findAll();
+    const recipients = memberContacts.map(item => ({
+        name: item.dataValues.name,
+        address: item.dataValues.email,
+    }));
+
+    const result = await sendTestMail({ title, content, recipients });
+    ctx.body = JSON.stringify(result);
 
     const username = ctx.state.jwt.user;
     const message = `${username} 寄出了一封社群信\n` +
@@ -47,28 +50,11 @@ const sendEmail = async (ctx, next) => {
 }
 
 const send = compose([
-    AuthenticateMiddleware,
+    //AuthenticateMiddleware,
     UpdateRequestMiddleware,
     sendEmail
 ]);
 
-const sendPreviewEmail = async (ctx, next) => {
-    const { title, content } = ctx.request.body;
-    const testPreviewLink = await sendTestMail({ title, content });
-
-    ctx.body = {
-        link: testPreviewLink,
-    };
-}
-
-const preview = compose([
-    //AuthenticateMiddleware,
-    UpdateRequestMiddleware,
-    sendPreviewEmail
-]);
-
-
 export default {
     send,
-    preview,
 };

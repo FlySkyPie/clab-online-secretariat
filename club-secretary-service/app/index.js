@@ -45,7 +45,7 @@ externalRouter
     .post('/member-contacts/update', MemberContactController.update);
 
 externalRouter
-    .post('/organization-email/preview', OrganizationEmailController.preview)
+    //.post('/organization-email/preview', OrganizationEmailController.preview)
     .post('/organization-email/send', OrganizationEmailController.send);
 
 externalRouter

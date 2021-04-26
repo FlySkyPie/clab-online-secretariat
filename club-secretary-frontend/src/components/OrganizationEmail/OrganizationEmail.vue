@@ -18,7 +18,7 @@
           </div>
         </b-overlay>
       </div>
-      <ResultTab  v-if="stage == 2" />
+      <ResultTab  v-if="stage == 1" />
     </div>
     <AlertModal ref="alert-modal" title="錯誤" />
     <ConfirmModal ref="confirm-modal" @confirm="sendEmail" />
@@ -54,10 +54,10 @@ export default {
         title: this.title,
         content: this.content,
       };
-      this.$fetch("/organization-email/preview", payload)
+      this.$fetch("/organization-email/send", payload)
         .then((result) => {
           console.log(result);
-          this.stage = 2;
+          this.stage = 1;
           this.loading = false;
           //this.added = result.data.added;
           //this.removed = result.data.removed;
