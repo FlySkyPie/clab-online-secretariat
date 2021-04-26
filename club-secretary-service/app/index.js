@@ -9,6 +9,7 @@ import ApplicationFormController from './controllers/ApplicationFormController';
 import MemberContactController from './controllers/MemberContactController';
 import OrganizationEmailController from './controllers/OrganizationEmailController';
 import authenticate from './middleware/authenticate';
+import injection from './middleware/jwtFaker';
 
 /**
  * Internal Service
@@ -53,7 +54,7 @@ externalRouter
 
 externalApp.use(cors(koaOptions))
     .use(bodyParser())
-    //.use(authenticate)
+    .use(injection)    //.use(authenticate)
     .use(externalRouter.routes())
     .use(koaStatic(path.join(__dirname, "../public")));
 

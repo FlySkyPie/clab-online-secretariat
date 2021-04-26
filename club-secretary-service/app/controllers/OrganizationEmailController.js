@@ -2,6 +2,7 @@ import compose from 'koa-compose';
 
 import { MemberContact } from "../../models";
 import { sendTestMail } from "../services/EmailService";
+import { announce } from "../services/DiscordService";
 
 const AuthenticateMiddleware = async (ctx, next) => {
     const jwt = ctx.state.jwt;
@@ -38,6 +39,7 @@ const sendEmail = async (ctx, next) => {
     }));
 
     const result = await sendTestMail({ title, content, recipients });
+    console.log(result);
     ctx.body = JSON.stringify(result);
 
     const username = ctx.state.jwt.user;
@@ -46,7 +48,7 @@ const sendEmail = async (ctx, next) => {
     await announce(message);
 
     ctx.cookies.set('jwt', "deleted", { maxAge: -1 });
-    ctx.body = JSON.stringify(response);
+    //ctx.body = JSON.stringify(response);
 }
 
 const send = compose([
