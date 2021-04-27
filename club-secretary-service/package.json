@@ -23,6 +23,7 @@
     "koa-compose": "^4.1.0",
     "koa-router": "^10.0.0",
     "koa-static": "^5.0.0",
+    "marked": "^2.0.3",
     "nanoid": "^3.1.22",
     "nodemailer": "^6.5.0",
     "sequelize": "^6.6.2",
