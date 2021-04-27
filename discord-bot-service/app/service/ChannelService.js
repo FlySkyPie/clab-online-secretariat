@@ -3,6 +3,8 @@ import Discord from "discord.js";
 import { botId, guildId } from '../config';
 import SecretaryService from './SecretaryService';
 
+//change this later
+const permissionRoleName = "顧問";
 /**
  * 
  * @param {Discord.Message} message 
@@ -12,15 +14,15 @@ export const createContactsUpdateApplicationForm = async message => {
         return;
     }
 
-    //change this later
-    if (!message.member.roles.cache.some(role => role.name === '顧問')) {
+    if (!message.member.roles.cache.some(role => role.name === permissionRoleName)) {
         return;
     }
 
-    const mentionBotReg = new RegExp(`.*<@!${botId}>.*`, 'g');
-    if (message.content.match(mentionBotReg) === null) {
+    //const mentionBotReg = new RegExp(`.*<@!${botId}>.*`, 'g');
+    if (message.content.match(/^!Lyana /g) === null) {
         return;
     }
+
 
     if (message.content.match(/.*contacts.*/g) === null) {
         return;
@@ -41,8 +43,7 @@ export const createOrganizationEmailApplicationForm = async message => {
         return;
     }
 
-    //change this later
-    if (!message.member.roles.cache.some(role => role.name === '顧問')) {
+    if (!message.member.roles.cache.some(role => role.name === permissionRoleName)) {
         return;
     }
 
