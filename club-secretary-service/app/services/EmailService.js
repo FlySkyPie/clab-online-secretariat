@@ -69,7 +69,6 @@ export const sendTestMail = async (options) => {
         },
     });
 
-    console.log(recipients);
     const info = await transporter.sendMail({
         from: sender,
         to: recipients,//"bar@example.com, baz@example.com",
@@ -77,7 +76,7 @@ export const sendTestMail = async (options) => {
         html: createMailBody(content)
     });
 
-    console.log({ link: nodemailer.getTestMessageUrl(info) });
+    console.log(nodemailer.getTestMessageUrl(info));
 
     return {
         success: info.accepted,
