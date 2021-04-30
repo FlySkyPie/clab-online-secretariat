@@ -20,7 +20,7 @@ const authenticate = async (ctx, next) => {
         ctx.state.jwt = {
             id: "--",
             type: "--",
-            user: "Development Test User",
+            user: "DevelopmentTestUser",
             iat: 9999999999,
         };
 

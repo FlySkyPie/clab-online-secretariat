@@ -2,7 +2,7 @@ import compose from 'koa-compose';
 import marked from 'marked';
 
 import { MemberContact } from "../../models";
-import { sendTestMail } from "../services/EmailService";
+import { sendTestMail, sendBatchMail } from "../services/EmailService";
 import { announce } from "../services/DiscordService";
 
 const AuthenticateMiddleware = async (ctx, next) => {
@@ -55,7 +55,7 @@ const sendEmail = async (ctx, next) => {
         address: item.dataValues.email,
     }));
 
-    const result = await sendTestMail({ title, content, recipients });
+    const result = await sendBatchMail({ title, content, recipients });
     const username = ctx.state.jwt.user;
 
     const successMessage = `${username} 寄出了一封社群信\n` +

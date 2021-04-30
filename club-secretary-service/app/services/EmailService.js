@@ -13,13 +13,20 @@ const createMailBody = (message) => {
 };
 
 /**
+ * @typedef {Object} Recipient
+ * @property {string} name
+ * @property {string} address
  * 
- * @param {{
- * recipients: string[],
- * content: string,
- * title: string,
- * }} options 
- * @returns 
+ * @typedef {Object} EmailOptions
+ * @property {Recipient[]} recipients
+ * @property {string} title
+ * @property {string} content
+ */
+
+/**
+ * 
+ * @param {EmailOptions} options 
+ * @returns {{success:string[],failure:string[]}}
  */
 export const sendBatchMail = async (options) => {
     const { recipients, content, title } = options;
@@ -33,27 +40,22 @@ export const sendBatchMail = async (options) => {
         },
     });
 
-    await transporter.sendMail({
+    const info = await transporter.sendMail({
         from: sender,
-        to: recipients.join(', '),
+        to: recipients,
         subject: title,
         html: createMailBody(content),
     });
+
+    return {
+        success: info.accepted,
+        failure: info.rejected,
+    };
 }
 
 /**
- * @typedef {Object} Recipient
- * @property name {string}
- * @property address {string}
- */
-
-/**
  * 
- * @param {{
- * content: string,
- * title: string,
- * recipients: Recipient[]
- * }} options 
+ * @param {EmailOptions} options 
  * @returns {{success:string[],failure:string[]}}
  */
 export const sendTestMail = async (options) => {

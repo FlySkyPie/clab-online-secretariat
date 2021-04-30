@@ -4,7 +4,7 @@ import { botId, guildId } from '../config';
 import SecretaryService from './SecretaryService';
 
 //change this later
-const permissionRoleName = "顧問";
+const checkPermissionRole = (name) => (name === '顧問' || name === '行政長');
 /**
  * 
  * @param {Discord.Message} message 
@@ -14,7 +14,7 @@ export const createContactsUpdateApplicationForm = async message => {
         return;
     }
 
-    if (!message.member.roles.cache.some(role => role.name === permissionRoleName)) {
+    if (!message.member.roles.cache.some(role => checkPermissionRole(role.name))) {
         return;
     }
 
@@ -43,7 +43,7 @@ export const createOrganizationEmailApplicationForm = async message => {
         return;
     }
 
-    if (!message.member.roles.cache.some(role => role.name === permissionRoleName)) {
+    if (!message.member.roles.cache.some(role => checkPermissionRole(role.name))) {
         return;
     }
 

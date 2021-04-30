@@ -9,6 +9,12 @@ const config = {
     }
 };
 
+/**
+ * 
+ * @param {string} type 
+ * @param {string} applicant 
+ * @returns {Promise<AxiosResponse<any>>}
+ */
 const create = (type, applicant) => {
     return axios.post(
         serviceURI + "/application-form/create",
