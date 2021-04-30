@@ -16,7 +16,17 @@ const verify = (token) =>
 const authenticate = async (ctx, next) => {
     if (ctx.originalUrl.match(/^\/application-form\/active/i) !== null) {
         await next();
-    } else {
+    } else if (process.env.NODE_ENV === 'development') {
+        ctx.state.jwt = {
+            id: "--",
+            type: "--",
+            user: "Development Test User",
+            iat: 9999999999,
+        };
+
+        await next();
+    }
+    else {
         const token = ctx.cookies.get('jwt');
         try {
             const jwt = await verify(token);

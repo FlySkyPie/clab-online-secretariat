@@ -7,7 +7,7 @@ import { announce } from "../services/DiscordService";
 
 const AuthenticateMiddleware = async (ctx, next) => {
     const jwt = ctx.state.jwt;
-    if (jwt.type !== 'organization-email') {
+    if (process.env.NODE_ENV !== 'development' && jwt.type !== 'organization-email') {
         ctx.throw(401);
         return;
     }
@@ -70,7 +70,7 @@ const sendEmail = async (ctx, next) => {
 }
 
 const send = compose([
-    //AuthenticateMiddleware,
+    AuthenticateMiddleware,
     RequestMiddleware,
     MarkdownTranslateMiddleware,
     sendEmail

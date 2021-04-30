@@ -5,7 +5,7 @@ import { announce } from "../services/DiscordService";
 
 const AuthenticateMiddleware = async (ctx, next) => {
     const jwt = ctx.state.jwt;
-    if (jwt.type !== 'member-contacts') {
+    if (process.env.NODE_ENV !== 'development' && jwt.type !== 'member-contacts') {
         ctx.throw(401);
         return;
     }
