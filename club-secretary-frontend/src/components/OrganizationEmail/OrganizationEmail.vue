@@ -57,7 +57,6 @@ export default {
       };
       this.$fetch("/organization-email/send", payload)
         .then((result) => {
-          console.log(result);
           this.stage = 1;
           this.loading = false;
           this.success = result.data.success;
