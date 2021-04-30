@@ -1,4 +1,4 @@
-version: "2.2"
+version: "3"
 services:
   discord-service:
     build: ./discord-bot-service/.
@@ -8,7 +8,7 @@ services:
       - BOT_ID=${BOT_ID}
       - SECRETARIAT_CHANNEL_ID=${SECRETARIAT_CHANNEL_ID}
       - GUILD_ID=${GUILD_ID}
-      - SECRETART_SERVICE_URI=http://secretary-service:3030
+      - INTERNAL_SECRETART_SERVICE_URI=http://secretary-service:3030
     networks:
       - internal-network
 
@@ -17,8 +17,11 @@ services:
     restart: always
     environment:
       - SECRET=${SECRET}
-      - DISCORD_SERVICE_URI=http://discord-service:3020
+      - INTERNAL_DISCORD_SERVICE_URI=http://discord-service:3020
       - HOSTNAME=${HOSTNAME}
+      - SECRETARY_NAME=${SECRETARY_NAME}
+      - SECRETARY_STMP_USER=${SECRETARY_STMP_USER}
+      - SECRETARY_STMP_PASSWORD=${SECRETARY_STMP_PASSWORD}
     ports:
       - "8080:3050"
     volumes:
