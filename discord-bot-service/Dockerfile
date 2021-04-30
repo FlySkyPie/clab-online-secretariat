@@ -2,9 +2,9 @@ FROM node:15-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-RUN npm install -g npm
-RUN npm install
+COPY package.json .
+COPY  yarn.lock .
+RUN yarn
 
 COPY . .
 

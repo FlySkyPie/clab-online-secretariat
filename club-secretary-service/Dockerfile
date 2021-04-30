@@ -4,9 +4,9 @@ WORKDIR /app
 
 #RUN apk update && apk add --update npm --no-cache
 
-COPY package*.json ./
-RUN npm install -g npm
-RUN npm install
+COPY package.json .
+COPY  yarn.lock .
+RUN yarn
 
 COPY . .
 
