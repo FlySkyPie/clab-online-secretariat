@@ -27,13 +27,14 @@
     <hr />
     <blockquote class="blockquote text-right mb-0">
       <footer class="blockquote-footer">
-        <img data-src="../../img/lyana-signature.png" />
+        <img src="../../img/lyana-signature.png" />
       </footer>
     </blockquote>
   </div>
 </template>
 
 <script>
+//import signature from '../../img/lyana-signature.png';
 export default {
   props: {
     show: {
