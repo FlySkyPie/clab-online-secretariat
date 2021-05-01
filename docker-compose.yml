@@ -23,7 +23,7 @@ services:
       - SECRETARY_STMP_USER=${SECRETARY_STMP_USER}
       - SECRETARY_STMP_PASSWORD=${SECRETARY_STMP_PASSWORD}
     ports:
-      - "8080:3050"
+      - "127.0.0.1:8080:3050"
     volumes:
       - web-static:/app/public
       - database:/app/database

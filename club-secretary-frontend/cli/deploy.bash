@@ -23,7 +23,7 @@ fi
 
 npm run build
 
-sed -i "s|http://localhost:3050|${API_SERVICE_URI}|g" dist/static/api.json
+sed -i "s|http://127.0.0.1:3050|${API_SERVICE_URI}|g" dist/static/api.json
 sed -i "s|VERSION|${CURRENT_VERSION}|g" dist/static/api.json
 
 cp -rf dist/* /build/.
