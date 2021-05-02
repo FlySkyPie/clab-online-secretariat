@@ -1,7 +1,9 @@
-version: "3"
+version: "3.4"
 services:
   discord-service:
-    build: ./discord-bot-service/.
+    build:
+      context: ./discord-bot-service/.
+      network: host
     restart: always
     environment:
       - BOT_TOKEN=${BOT_TOKEN}
@@ -13,7 +15,9 @@ services:
       - internal-network
 
   secretary-service:
-    build: ./club-secretary-service/.
+    build:
+      context: ./club-secretary-service/.
+      network: host
     restart: always
     environment:
       - SECRET=${SECRET}
@@ -31,7 +35,9 @@ services:
       - internal-network
 
   frontend-builder:
-    build: ./club-secretary-frontend/.
+    build:
+      context: ./club-secretary-frontend/.
+      network: host
     environment:
       - API_SERVICE_URI=${API_SERVICE_URI}
     volumes:
