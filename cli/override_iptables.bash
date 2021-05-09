@@ -36,7 +36,7 @@ while true; do
     if [ -z "${RULE_NUMBER}" ]; then
         break
     else
-        iptables -t nat -D PREROUTING ${RULE_NUMBER}
+        iptables -t nat -D POSTROUTING ${RULE_NUMBER}
     fi
 done
 
