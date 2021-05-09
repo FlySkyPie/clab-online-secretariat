@@ -37,6 +37,7 @@ while true; do
         break
     else
         iptables -t nat -D POSTROUTING ${RULE_NUMBER}
+        echo "run: iptables -t nat -D POSTROUTING ${RULE_NUMBER}"
     fi
 done
 
@@ -45,6 +46,7 @@ for row in ${TABLE}; do
     IP=$(echo ${row} | sed -r -e "s/(.*),.*/\1/")
     NAME=$(echo ${row} | sed -r -e "s/.*,(.*)/\1/")
     iptables -t nat -A POSTROUTING -s ${IP} ! -o ${NAME} -j SNAT --to-source ${parameter}
+    echo "run: iptables -t nat -A POSTROUTING -s ${IP} ! -o ${NAME} -j SNAT --to-source ${parameter}"
 done
 
 exit 0
