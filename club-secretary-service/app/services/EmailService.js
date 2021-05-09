@@ -42,7 +42,7 @@ export const sendBatchMail = async (options) => {
 
     const info = await transporter.sendMail({
         from: sender,
-        to: recipients,
+        bcc: recipients,
         subject: title,
         html: createMailBody(content),
     });
@@ -73,7 +73,7 @@ export const sendTestMail = async (options) => {
 
     const info = await transporter.sendMail({
         from: sender,
-        to: recipients,//"bar@example.com, baz@example.com",
+        bcc: recipients,//"bar@example.com, baz@example.com",
         subject: title,
         html: createMailBody(content)
     });
