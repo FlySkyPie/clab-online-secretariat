@@ -32,7 +32,7 @@ TABLE=$(iptables -S -t nat |
 
 # Remove rules.
 while true; do
-    RULE_NUMBER=iptables -t nat -v -L POSTROUTING -n --line-number | grep "0.0.0.0/0.*$" | sed -re "s/^([0-9]+).*/\1/" | head -1
+    RULE_NUMBER=$(iptables -t nat -v -L POSTROUTING -n --line-number | grep "0.0.0.0/0.*$" | sed -re "s/^([0-9]+).*/\1/" | head -1)
     if [ -z "${RULE_NUMBER}" ]; then
         break
     else
