@@ -31,7 +31,7 @@ fi
 docker-compose up -d
 
 # Fixing network setting.
-bash ./cli/override_docker0.bash ${parameter} | sed  's/^/$(prefixFun "[Docker0 Override]") /'
-bash ./cli/override_iptables.bash ${parameter} | sed  's/^/$(prefixFun "[Bridges Override]") /'
+bash ./cli/override_docker0.bash ${parameter} | sed  "s/^/$(prefixFun "[Docker0 Override]") /"
+bash ./cli/override_iptables.bash ${parameter} | sed  "s/^/$(prefixFun "[Bridges Override]") /"
 
 exit 0

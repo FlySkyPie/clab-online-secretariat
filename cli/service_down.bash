@@ -25,6 +25,6 @@ function prefixFun() {
 docker-compose down
 
 # Remove network setting which created by custom script.
-bash ./cli/clean_iptables.bash | sed  's/^/$(prefixFun "[Bridges Cleaner]") /'
+bash ./cli/clean_iptables.bash | sed  "s/^/$(prefixFun "[Bridges Cleaner]") /"
 
 exit 0
