@@ -21,11 +21,17 @@ function prefixFun() {
 
 parameter=${1}
 
+if [ -z "${parameter}" ]; then
+    echo 'Source parameter are missing, end the process.'
+    exit 0
+fi
+
+
 # Run original service
 docker-compose up -d
 
 # Fixing network setting.
-bash ./cli/override_docker0 ${parameter} | sed  's/^/$(prefixFun "[Docker0 Override]") /'
-bash ./cli/override_iptables ${parameter} | sed  's/^/$(prefixFun "[Bridges Override]") /'
+bash ./cli/override_docker0.bash ${parameter} | sed  's/^/$(prefixFun "[Docker0 Override]") /'
+bash ./cli/override_iptables.bash ${parameter} | sed  's/^/$(prefixFun "[Bridges Override]") /'
 
 exit 0
