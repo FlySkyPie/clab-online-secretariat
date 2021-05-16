@@ -124,7 +124,8 @@ export default {
       if (
         !file ||
         (file.type !== "text/csv" &&
-          file.type !== "text/comma-separated-values")
+          file.type !== "text/comma-separated-values" &&
+          file.type !== "application/vnd.ms-excel")
       ) {
         this.stage = 0;
         this.$refs["alert-modal"].show(
