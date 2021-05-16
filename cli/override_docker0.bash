@@ -23,6 +23,11 @@ DOCKER0_SOURCE=$(iptables -S -t nat |
     grep "^-A POSTROUTING -s [0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.*-o docker0 .*" |
     sed -r -e "s/-A POSTROUTING -s ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\/[0-9]+).* -j MASQUERADE/\1/")
 
+if [ -z "${DOCKER0_SOURCE}" ]; then
+    echo "There're not docker0 MASQUERADE need to override."
+    exit 0
+fi
+
 # Remove rules.
 RULE_NUMBER=$(iptables -t nat -v -L POSTROUTING -n --line-number |
     grep ".*docker0.*0.0.0.0/0.*$" |
