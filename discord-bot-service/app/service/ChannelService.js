@@ -23,7 +23,6 @@ export const createContactsUpdateApplicationForm = async message => {
         return;
     }
 
-
     if (message.content.match(/.*contacts.*/g) === null) {
         return;
     }
@@ -34,7 +33,7 @@ export const createContactsUpdateApplicationForm = async message => {
     console.log(nickname);/***/
 
     const result = await SecretaryService.create('member-contacts', message.author.username);
-    const responseMessage = "您的會員通訊錄更新申請表在此：\n" + result.data.link;
+    const responseMessage = "您的會員通訊錄更新申請表在此：\n" + '`' + result.data.link + '`';
     message.author.send(responseMessage).catch(() => { });
 }
 
@@ -56,6 +55,6 @@ export const createOrganizationEmailApplicationForm = async message => {
     }
 
     const result = await SecretaryService.create('organization-email', message.author.username);
-    const responseMessage = "您的社群信申請表在此：\n" + result.data.link;
+    const responseMessage = "您的社群信申請表在此：\n" + '`' + result.data.link + '`';
     message.author.send(responseMessage).catch(() => { });
 }
