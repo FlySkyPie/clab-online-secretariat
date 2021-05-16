@@ -34,10 +34,10 @@ RULE_NUMBER=$(iptables -t nat -v -L POSTROUTING -n --line-number |
     sed -re "s/^([0-9]+).*/\1/")
 
 iptables -t nat -D POSTROUTING ${RULE_NUMBER}
-echo "run: iptables -t nat -D POSTROUTING ${RULE_NUMBER}"
+echo "Run command: iptables -t nat -D POSTROUTING ${RULE_NUMBER}"
 
 # Add rules.
 iptables -t nat -A POSTROUTING -s ${DOCKER0_SOURCE} ! -o docker0 -j SNAT --to-source ${parameter}
-echo "run: iptables -t nat -A POSTROUTING -s ${DOCKER0_SOURCE} ! -o docker0 -j SNAT --to-source ${parameter}"
+echo "Run command: iptables -t nat -A POSTROUTING -s ${DOCKER0_SOURCE} ! -o docker0 -j SNAT --to-source ${parameter}"
 
 exit 0

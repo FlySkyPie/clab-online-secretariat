@@ -16,7 +16,7 @@ YELLOW='\033[0;33m'
 NC='\033[0m' # No Color
 
 function prefixFun() {
-    printf "${RED}${1}${NC}"
+    printf "${GREEN}${1}${NC}"
 }
 
 #parameter=${1}
