@@ -20,7 +20,7 @@ echo "Using: ${parameter}"
 
 # Back up original Masquerade.
 DOCKER0_SOURCE=$(iptables -S -t nat |
-    grep "^-A POSTROUTING -s [0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.*-o docker0 .*" |
+    grep "^-A POSTROUTING -s [0-9]*\.[0-9]*\.[0-9]*\.[0-9]*.*-o docker0 .* -j MASQUERADE" |
     sed -r -e "s/-A POSTROUTING -s ([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+\/[0-9]+).* -j MASQUERADE/\1/")
 
 if [ -z "${DOCKER0_SOURCE}" ]; then
